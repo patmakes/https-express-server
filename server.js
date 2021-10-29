@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
+var fs = require('fs')
+const https = require('https');
 const app = express();
 
 var corsOptions = {
@@ -36,6 +37,11 @@ require("./routes/tutorial.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+
+
+https.createServer({
+  key: fs.readFileSync('testdb.key'),
+  cert: fs.readFileSync('testdb.cert')
+}, app).listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
